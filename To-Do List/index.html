@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✅</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="app">
+        <header>
+            <h1>To-Do</h1>
+            <!-- Today's date, filled in by JavaScript. -->
+            <p id="today" class="today"></p>
+        </header>
+
+        <!-- A form so Enter adds the task. -->
+        <form id="new-form" class="new-form" autocomplete="off">
+            <label for="new-task" class="visually-hidden">New task</label>
+            <input id="new-task" type="text" placeholder="What needs to be done?" maxlength="120">
+            <button type="submit" aria-label="Add task">Add</button>
+        </form>
+
+        <!-- The filter buttons. data-filter says which tasks each one shows. -->
+        <div class="toolbar">
+            <div id="filters" class="filters">
+                <button type="button" data-filter="all" class="active">All</button>
+                <button type="button" data-filter="active">Active</button>
+                <button type="button" data-filter="completed">Completed</button>
+            </div>
+        </div>
+
+        <!-- The list starts empty. script.js builds one <li> per task from the saved data. -->
+        <ul id="task-list" class="task-list"></ul>
+
+        <!-- Shown only when there is nothing to display. -->
+        <p id="empty" class="empty">Nothing here yet. Add your first task above ✨</p>
+
+        <footer class="footer">
+            <span id="count">0 items left</span>
+            <button id="clear-completed" type="button" class="link-btn">Clear completed</button>
+        </footer>
+
+        <p class="hint">Double-click a task to edit it.</p>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

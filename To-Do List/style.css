@@ -1,0 +1,232 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --accent: #e11d48;
+    --text: #1f2937;
+    --muted: #9ca3af;
+    --border: #f1f1f4;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 3rem 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(160deg, #fff1f2, #fdf2f8 50%, #f5f3ff);
+    color: var(--text);
+}
+
+.app {
+    width: min(100%, 540px);
+    margin: 0 auto;                 /* auto left/right margins center a block element */
+    padding: 1.75rem;
+    background: #fff;
+    border-radius: 1.25rem;
+    box-shadow: 0 20px 40px rgb(225 29 72 / 0.08);
+}
+
+header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.25rem;
+    color: var(--accent);
+}
+
+.today {
+    margin: 0;
+    color: var(--muted);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ---------- New task form ---------- */
+
+.new-form {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1.25rem 0;
+}
+
+.new-form input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.8rem 1rem;
+    font: inherit;
+    border: 2px solid var(--border);
+    border-radius: 0.75rem;
+}
+
+.new-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.new-form button {
+    padding: 0 1.25rem;
+    font: inherit;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+}
+
+/* ---------- Filters ---------- */
+
+.filters {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.filters button {
+    padding: 0.35rem 0.8rem;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--muted);
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.filters button.active {
+    color: var(--accent);
+    border-color: currentColor;     /* currentColor = the element's own text color */
+}
+
+/* ---------- Task list ---------- */
+
+.task-list {
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.25rem;
+    border-bottom: 1px solid var(--border);
+    /* A small slide-in animation when a task is added. */
+    animation: slide-in 0.2s ease-out;
+}
+
+@keyframes slide-in {
+    from { opacity: 0; transform: translateY(-6px); }
+}
+
+.task input[type="checkbox"] {
+    flex: 0 0 auto;
+    width: 1.25rem;
+    height: 1.25rem;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.task .text {
+    flex: 1;
+    overflow-wrap: anywhere;         /* break very long words instead of overflowing */
+    cursor: text;
+}
+
+/* Completed tasks are crossed out and greyed. */
+.task.done .text {
+    color: var(--muted);
+    text-decoration: line-through;
+}
+
+.task .edit {
+    flex: 1;
+    padding: 0.3rem 0.5rem;
+    font: inherit;
+    border: 2px solid var(--accent);
+    border-radius: 0.4rem;
+}
+
+.task .delete {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.1rem;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    /* Hidden until the row is hovered or focused (see below). */
+    opacity: 0;
+}
+
+/* Show the delete button on hover, and for keyboard users when anything in the row has focus. */
+.task:hover .delete,
+.task:focus-within .delete {
+    opacity: 1;
+}
+
+.task .delete:hover {
+    color: var(--accent);
+    background: #fff1f2;
+}
+
+/* Touch screens have no hover, so always show the button there. */
+@media (hover: none) {
+    .task .delete {
+        opacity: 1;
+    }
+}
+
+.empty {
+    padding: 2rem 0;
+    text-align: center;
+    color: var(--muted);
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.link-btn {
+    font: inherit;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.link-btn:hover:not(:disabled) {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+.link-btn:disabled {
+    visibility: hidden;
+}
+
+.hint {
+    margin: 1.25rem 0 0;
+    font-size: 0.8rem;
+    text-align: center;
+    color: var(--muted);
+}

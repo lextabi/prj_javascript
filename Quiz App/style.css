@@ -1,0 +1,246 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --accent: #facc15;
+    --correct: #22c55e;
+    --wrong: #ef4444;
+    --answer: #334155;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.quiz {
+    width: min(100%, 600px);
+    padding: 2rem;
+    background: var(--card);
+    border-radius: 1.25rem;
+    box-shadow: 0 25px 50px rgb(0 0 0 / 0.4);
+}
+
+.screen {
+    text-align: center;
+}
+
+h1 {
+    margin: 0 0 0.75rem;
+    color: var(--accent);
+}
+
+.lead {
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.high-score {
+    font-weight: 600;
+}
+
+.btn {
+    margin-top: 1rem;
+    padding: 0.8rem 2rem;
+    font: inherit;
+    font-weight: 700;
+    color: var(--bg);
+    background: var(--accent);
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+}
+
+.btn:hover {
+    filter: brightness(1.1);
+}
+
+.btn:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
+/* ---------- Question screen ---------- */
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.timer {
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* script.js adds .urgent in the last 5 seconds. */
+.timer.urgent {
+    color: var(--wrong);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    50% { opacity: 0.4; }
+}
+
+.progress {
+    height: 0.4rem;
+    margin: 0.75rem 0 1.5rem;
+    background: var(--answer);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0;
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.4s ease;
+}
+
+.question {
+    min-height: 3em;
+    margin: 0 0 1.25rem;
+    font-size: 1.3rem;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.answers {
+    display: grid;
+    gap: 0.6rem;
+}
+
+.answer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font: inherit;
+    text-align: left;
+    color: var(--text);
+    background: var(--answer);
+    border: 2px solid transparent;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+/* The small number badge (1-4) in front of each answer. */
+.answer .key {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;             /* centers the number inside the badge */
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    background: rgb(255 255 255 / 0.1);
+    border-radius: 0.4rem;
+}
+
+.answer:hover:not(:disabled) {
+    border-color: var(--accent);
+}
+
+.answer:disabled {
+    cursor: default;
+}
+
+.answer.correct {
+    background: rgb(34 197 94 / 0.2);
+    border-color: var(--correct);
+}
+
+.answer.wrong {
+    background: rgb(239 68 68 / 0.2);
+    border-color: var(--wrong);
+}
+
+/* After answering, fade out the answers that were not involved. */
+.answers.locked .answer:not(.correct):not(.wrong) {
+    opacity: 0.5;
+}
+
+.feedback {
+    min-height: 1.5em;
+    margin: 1rem 0 0;
+    text-align: left;
+    line-height: 1.45;
+}
+
+.feedback strong.good { color: var(--correct); }
+.feedback strong.bad  { color: var(--wrong); }
+
+.hint {
+    margin: 1rem 0 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+/* ---------- Result screen ---------- */
+
+/* conic-gradient draws a pie: the score color up to --percent, then grey for the rest.
+   script.js sets --percent with element.style.setProperty(). */
+.score-ring {
+    --percent: 0%;
+    display: grid;
+    place-items: center;
+    width: 10rem;
+    height: 10rem;
+    margin: 1rem auto;
+    background: conic-gradient(var(--accent) var(--percent), var(--answer) 0);
+    border-radius: 50%;
+}
+
+/* The inner circle turns the pie into a ring. */
+.score-ring span {
+    display: grid;
+    place-items: center;
+    width: 8rem;
+    height: 8rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: var(--card);
+    border-radius: 50%;
+}
+
+.review-title {
+    margin: 1.5rem 0 0.5rem;
+    font-size: 1rem;
+    text-align: left;
+    color: var(--muted);
+}
+
+.review {
+    margin: 0;
+    padding-left: 1.25rem;
+    text-align: left;
+}
+
+.review li {
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.review .your {
+    color: var(--wrong);
+}
+
+.review .right {
+    color: var(--correct);
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❓</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="quiz">
+        <!-- The app has three "screens". Only one is visible at a time (the others have hidden). -->
+
+        <!-- 1. Start screen -->
+        <section id="start-screen" class="screen">
+            <h1>JavaScript Quiz</h1>
+            <p class="lead">10 questions about JavaScript, HTML and CSS. You have 15 seconds for each one.</p>
+            <p id="high-score" class="high-score"></p>
+            <button id="start-btn" class="btn">Start quiz</button>
+        </section>
+
+        <!-- 2. Question screen -->
+        <section id="question-screen" class="screen" hidden>
+            <div class="top-bar">
+                <span id="progress-text">Question 1 / 10</span>
+                <!-- The timer. JavaScript updates the number every second. -->
+                <span id="timer" class="timer" aria-live="off">⏱ 15</span>
+            </div>
+            <!-- The progress bar: its width grows with each question. -->
+            <div class="progress"><div id="progress-fill" class="progress-fill"></div></div>
+
+            <h2 id="question" class="question"></h2>
+            <!-- The answer buttons are created by JavaScript from the question data. -->
+            <div id="answers" class="answers"></div>
+
+            <p id="feedback" class="feedback" aria-live="polite"></p>
+            <button id="next-btn" class="btn" hidden>Next</button>
+            <p class="hint">Tip: press 1–4 to answer and Enter for the next question.</p>
+        </section>
+
+        <!-- 3. Results screen -->
+        <section id="result-screen" class="screen" hidden>
+            <h1 id="result-title">Well done!</h1>
+            <!-- A circle drawn with a conic-gradient, filled to the score percentage. -->
+            <div id="score-ring" class="score-ring">
+                <span id="score-text">0 / 10</span>
+            </div>
+            <p id="result-message" class="lead"></p>
+
+            <h2 id="review-title" class="review-title">Review your mistakes</h2>
+            <ol id="review" class="review"></ol>
+
+            <button id="restart-btn" class="btn">Try again</button>
+        </section>
+    </main>
+
+    <!-- The questions live in their own file, loaded before the app code that uses them. -->
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

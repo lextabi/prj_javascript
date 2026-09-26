@@ -1,0 +1,344 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #eef1f7;
+    --column: #e2e7f0;
+    --card: #fff;
+    --text: #172b4d;
+    --muted: #5e6c84;
+    --accent: #0c66e4;
+    --low: #22a06b;
+    --medium: #e2a03f;
+    --high: #e34935;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ---------- Top bar ---------- */
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    color: #fff;
+    background: linear-gradient(90deg, #0c66e4, #6e5dc6);
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.search input {
+    width: min(50vw, 260px);
+    padding: 0.5rem 0.8rem;
+    font: inherit;
+    color: #fff;
+    background: rgb(255 255 255 / 0.2);
+    border: 1px solid rgb(255 255 255 / 0.35);
+    border-radius: 0.5rem;
+}
+
+.search input::placeholder {
+    color: rgb(255 255 255 / 0.8);
+}
+
+.search input:focus {
+    outline: 2px solid #fff;
+}
+
+/* ---------- Columns ---------- */
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    align-items: start;               /* columns are only as tall as their content */
+    width: min(100%, 1100px);
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem;
+    background: var(--column);
+    border: 2px solid transparent;
+    border-radius: 0.9rem;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+/* The column under a dragged card is highlighted. */
+.column.drag-over {
+    background: #d5def0;
+    border-color: var(--accent);
+}
+
+.column-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.25rem 0.75rem;
+}
+
+.column-head h2 {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* A colored dot before each column title, using ::before. */
+.column-head h2::before {
+    content: "";
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-right: 0.45rem;
+    border-radius: 50%;
+    background: var(--dot, var(--muted));
+}
+
+.column-todo  { --dot: #8590a2; }
+.column-doing { --dot: var(--accent); }
+.column-done  { --dot: var(--low); }
+
+.count {
+    padding: 0.05rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--muted);
+    background: rgb(255 255 255 / 0.7);
+    border-radius: 999px;
+}
+
+.link {
+    margin-left: auto;
+    padding: 0;
+    font: inherit;
+    font-size: 0.8rem;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.link:hover {
+    color: var(--high);
+    text-decoration: underline;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-height: 3rem;                 /* an empty column still has room to drop into */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* ---------- Cards ---------- */
+
+.card {
+    padding: 0.7rem 0.8rem;
+    background: var(--card);
+    border-radius: 0.6rem;
+    box-shadow: 0 1px 2px rgb(9 30 66 / 0.25);
+    cursor: grab;                     /* the "open hand" cursor says "you can drag me" */
+}
+
+.card:active {
+    cursor: grabbing;
+}
+
+.card:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* The card being dragged stays in place but fades, so you can see where it came from. */
+.card.dragging {
+    opacity: 0.35;
+}
+
+/* The drop spot: script.js sets its height to match the dragged card. */
+.placeholder {
+    border: 2px dashed var(--accent);
+    border-radius: 0.6rem;
+    background: rgb(12 102 228 / 0.06);
+}
+
+.card-top,
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    margin: 0.45rem 0;
+    font-weight: 500;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.rename {
+    width: 100%;
+    margin: 0.3rem 0;
+    padding: 0.3rem 0.4rem;
+    font: inherit;
+    border: 2px solid var(--accent);
+    border-radius: 0.35rem;
+}
+
+.tag {
+    padding: 0.1rem 0.5rem;
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #fff;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.tag.low    { background: var(--low); }
+.tag.medium { background: var(--medium); }
+.tag.high   { background: var(--high); }
+
+.date {
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.icon-btn {
+    width: 1.6rem;
+    height: 1.6rem;
+    padding: 0;
+    font-size: 0.75rem;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.icon-btn:hover:not(:disabled) {
+    color: var(--text);
+    background: var(--bg);
+}
+
+.icon-btn:disabled {
+    opacity: 0.25;
+    cursor: default;
+}
+
+/* The delete and move buttons appear when the card is hovered or focused... */
+.card .icon-btn {
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.card:hover .icon-btn,
+.card:focus-within .icon-btn {
+    opacity: 1;
+}
+
+.card:hover .icon-btn:disabled,
+.card:focus-within .icon-btn:disabled {
+    opacity: 0.25;
+}
+
+/* ...and are always visible on touch screens, which have no hover. */
+@media (hover: none) {
+    .card .icon-btn { opacity: 1; }
+    .card .icon-btn:disabled { opacity: 0.25; }
+}
+
+/* ---------- Add card ---------- */
+
+.add-form input {
+    width: 100%;
+    margin-top: 0.6rem;
+    padding: 0.55rem 0.7rem;
+    font: inherit;
+    color: var(--text);
+    background: transparent;
+    border: 1px dashed #aab4c5;
+    border-radius: 0.5rem;
+}
+
+.add-form input:focus {
+    outline: none;
+    background: #fff;
+    border: 1px solid var(--accent);
+}
+
+/* ---------- Help text ---------- */
+
+.help {
+    width: min(100%, 1100px);
+    margin: 0 auto;
+    padding: 0 1.5rem 2rem;
+    font-size: 0.8rem;
+    line-height: 1.7;
+    color: var(--muted);
+}
+
+kbd {
+    padding: 0.05rem 0.35rem;
+    font-family: inherit;
+    font-size: 0.75rem;
+    background: #fff;
+    border: 1px solid #c7cfdb;
+    border-radius: 0.25rem;
+}
+
+/* ---------- Phones: columns side by side with swipe ---------- */
+
+@media (max-width: 720px) {
+    .topbar {
+        padding: 0.8rem 1rem;
+    }
+
+    .board {
+        /* A horizontal row the user swipes through, one column at a time. */
+        display: flex;
+        gap: 0.75rem;
+        padding: 1rem;
+        overflow-x: auto;
+        /* scroll-snap makes each swipe stop neatly at the start of a column. */
+        scroll-snap-type: x mandatory;
+        scroll-padding: 1rem;
+    }
+
+    .column {
+        flex: 0 0 85%;
+        scroll-snap-align: start;
+    }
+
+    .help {
+        padding: 0 1rem 1.5rem;
+    }
+}

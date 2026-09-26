@@ -1,0 +1,142 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #17171c;
+    --body: #1f1f26;
+    --key: #2e2e38;
+    --key-hover: #3a3a47;
+    --fn: #4b4b5a;
+    --op: #ff9f0a;
+    --text: #fff;
+    --muted: #9a9aa8;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.calculator {
+    width: min(100%, 340px);
+    padding: 1.25rem;
+    background: var(--body);
+    border-radius: 1.75rem;
+    box-shadow: 0 25px 50px rgb(0 0 0 / 0.5);
+}
+
+/* ---------- Display ---------- */
+
+.display {
+    padding: 1rem 0.5rem 1.25rem;
+    text-align: right;
+}
+
+.expression {
+    min-height: 1.5rem;
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.1rem;
+    /* Long expressions are cut off with "…" instead of wrapping onto a new line. */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.current {
+    margin: 0.25rem 0 0;
+    font-size: 3.25rem;
+    font-weight: 300;
+    font-variant-numeric: tabular-nums;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* script.js adds these classes when the number gets long, so it still fits. */
+.current.small  { font-size: 2.4rem; }
+.current.xsmall { font-size: 1.8rem; }
+
+.current.error {
+    font-size: 1.6rem;
+    color: #ff6b6b;
+}
+
+/* ---------- Keys: CSS Grid ---------- */
+
+.keys {
+    display: grid;
+    /* Four equal columns. The 20 buttons flow into five rows automatically. */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+}
+
+.key {
+    /* aspect-ratio: 1 keeps every key a perfect square (then border-radius makes it round). */
+    aspect-ratio: 1;
+    font: inherit;
+    font-size: 1.6rem;
+    color: var(--text);
+    background: var(--key);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    /* Prevent the double-tap zoom on phones when tapping keys quickly. */
+    touch-action: manipulation;
+    transition: background 0.1s, filter 0.1s;
+}
+
+.key:hover {
+    background: var(--key-hover);
+}
+
+.key.fn {
+    font-size: 1.3rem;
+    color: #fff;
+    background: var(--fn);
+}
+
+.key.op,
+.key.equals {
+    font-size: 1.9rem;
+    background: var(--op);
+}
+
+.key.fn:hover,
+.key.op:hover,
+.key.equals:hover {
+    filter: brightness(1.15);
+}
+
+/* The operator that is waiting for the next number is highlighted. */
+.key.op.active {
+    color: var(--op);
+    background: #fff;
+}
+
+/* script.js adds .pressed briefly when a key is typed on the keyboard. */
+.key.pressed,
+.key:active {
+    filter: brightness(1.5);
+}
+
+.key:focus-visible {
+    outline: 3px solid var(--op);
+    outline-offset: 2px;
+}
+
+.hint {
+    margin: 1.25rem 0 0;
+    font-size: 0.75rem;
+    text-align: center;
+    color: var(--muted);
+}

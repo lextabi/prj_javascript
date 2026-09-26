@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Card Game</title>
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🃏</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game">
+        <h1>Memory</h1>
+
+        <div class="controls">
+            <!-- A <select> for the board size. -->
+            <label>
+                Level
+                <select id="level">
+                    <option value="easy">Easy (4 × 3)</option>
+                    <option value="normal" selected>Normal (4 × 4)</option>
+                    <option value="hard">Hard (6 × 6)</option>
+                </select>
+            </label>
+            <button id="restart" type="button" class="btn">Restart</button>
+        </div>
+
+        <div class="stats">
+            <span>Moves: <strong id="moves">0</strong></span>
+            <span>Time: <strong id="time">0:00</strong></span>
+            <span>Pairs: <strong id="pairs">0 / 8</strong></span>
+            <span>Best: <strong id="best">–</strong></span>
+        </div>
+
+        <!-- The cards are created by JavaScript. A CSS variable sets the number of columns. -->
+        <div id="board" class="board" aria-label="Memory cards"></div>
+    </main>
+
+    <!-- <dialog> is a built-in pop-up window. showModal() opens it and darkens the page behind it. -->
+    <dialog id="win-dialog" class="win-dialog">
+        <h2>🎉 You did it!</h2>
+        <p id="win-stars" class="stars" aria-hidden="true"></p>
+        <p id="win-text"></p>
+        <!-- method="dialog" makes the button close the dialog without any JavaScript. -->
+        <form method="dialog">
+            <button class="btn">Play again</button>
+        </form>
+    </dialog>
+
+    <script src="script.js"></script>
+</body>
+</html>

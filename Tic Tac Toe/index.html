@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭕</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game">
+        <h1>Tic <span class="x">Tac</span> <span class="o">Toe</span></h1>
+
+        <!-- Game mode: two people on one device, or one person against the computer. -->
+        <div class="modes" role="group" aria-label="Game mode">
+            <button type="button" data-mode="pvp" class="mode active">👥 2 Players</button>
+            <button type="button" data-mode="cpu" class="mode">🤖 vs Computer</button>
+        </div>
+
+        <p id="status" class="status" aria-live="polite">X's turn</p>
+
+        <!-- The 3×3 board. Nine buttons, each with data-cell from 0 to 8:
+               0 | 1 | 2
+               3 | 4 | 5
+               6 | 7 | 8                                                   -->
+        <div id="board" class="board" role="group" aria-label="Tic Tac Toe board">
+            <button class="cell" data-cell="0" aria-label="Row 1, column 1, empty"></button>
+            <button class="cell" data-cell="1" aria-label="Row 1, column 2, empty"></button>
+            <button class="cell" data-cell="2" aria-label="Row 1, column 3, empty"></button>
+            <button class="cell" data-cell="3" aria-label="Row 2, column 1, empty"></button>
+            <button class="cell" data-cell="4" aria-label="Row 2, column 2, empty"></button>
+            <button class="cell" data-cell="5" aria-label="Row 2, column 3, empty"></button>
+            <button class="cell" data-cell="6" aria-label="Row 3, column 1, empty"></button>
+            <button class="cell" data-cell="7" aria-label="Row 3, column 2, empty"></button>
+            <button class="cell" data-cell="8" aria-label="Row 3, column 3, empty"></button>
+        </div>
+
+        <!-- The scoreboard. -->
+        <div class="scores">
+            <div class="score x"><span id="label-x">Player X</span><strong id="score-x">0</strong></div>
+            <div class="score draw"><span>Draws</span><strong id="score-draw">0</strong></div>
+            <div class="score o"><span id="label-o">Player O</span><strong id="score-o">0</strong></div>
+        </div>
+
+        <div class="actions">
+            <button id="new-round" type="button" class="btn">New round</button>
+            <button id="reset-scores" type="button" class="btn btn-light">Reset scores</button>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

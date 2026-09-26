@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📏</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="converter">
+        <h1>Unit Converter</h1>
+
+        <!-- Category tabs. role="tablist" and aria-selected help screen readers understand them. -->
+        <nav id="categories" class="tabs" role="tablist">
+            <button type="button" role="tab" data-category="length" aria-selected="true">📏 Length</button>
+            <button type="button" role="tab" data-category="weight" aria-selected="false">⚖️ Weight</button>
+            <button type="button" role="tab" data-category="temperature" aria-selected="false">🌡️ Temperature</button>
+        </nav>
+
+        <!-- Two identical sides. Typing in either one converts into the other. -->
+        <div class="sides">
+            <div class="side">
+                <label for="from-value" class="visually-hidden">From value</label>
+                <input id="from-value" type="number" value="1" step="any">
+                <!-- The <option>s are added by JavaScript for the selected category. -->
+                <select id="from-unit" aria-label="From unit"></select>
+            </div>
+
+            <button id="swap" type="button" class="swap" aria-label="Swap units" title="Swap units">⇄</button>
+
+            <div class="side">
+                <label for="to-value" class="visually-hidden">To value</label>
+                <input id="to-value" type="number" step="any">
+                <select id="to-unit" aria-label="To unit"></select>
+            </div>
+        </div>
+
+        <!-- A one-line explanation, like "1 kilometre = 0.621371 miles". -->
+        <p id="formula" class="formula"></p>
+
+        <!-- A quick reference table for the "from" unit. -->
+        <h2 id="table-title">Quick reference</h2>
+        <table class="reference">
+            <tbody id="table-body"></tbody>
+        </table>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

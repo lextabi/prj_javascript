@@ -1,0 +1,196 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --accent: #7c3aed;
+    --accent-soft: #ede9fe;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #f5f3ff;
+    color: var(--text);
+}
+
+.converter {
+    width: min(100%, 620px);
+    padding: 2rem;
+    background: #fff;
+    border-radius: 1.25rem;
+    box-shadow: 0 15px 35px rgb(124 58 237 / 0.12);
+}
+
+h1 {
+    margin: 0 0 1.25rem;
+    text-align: center;
+}
+
+h2 {
+    margin: 1.75rem 0 0.5rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ---------- Tabs ---------- */
+
+.tabs {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    background: var(--accent-soft);
+    border-radius: 0.75rem;
+}
+
+.tabs button {
+    flex: 1;                         /* all tabs share the width equally */
+    padding: 0.6rem 0.4rem;
+    font: inherit;
+    font-weight: 600;
+    color: var(--accent);
+    background: none;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+/* An attribute selector: matches the tab whose aria-selected is "true". */
+.tabs button[aria-selected="true"] {
+    color: #fff;
+    background: var(--accent);
+}
+
+/* ---------- The two sides ---------- */
+
+.sides {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;                     /* lets the side shrink on small screens */
+    border: 2px solid var(--border);
+    border-radius: 0.75rem;
+    overflow: hidden;                 /* keep the children inside the rounded corners */
+}
+
+/* :focus-within = the box contains the element that has focus. */
+.side:focus-within {
+    border-color: var(--accent);
+}
+
+.side input,
+.side select {
+    width: 100%;
+    font: inherit;
+    border: none;
+    outline: none;
+}
+
+.side input {
+    padding: 0.75rem 1rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.side select {
+    padding: 0.6rem 1rem;
+    color: var(--muted);
+    background: #f9fafb;
+    border-top: 1px solid var(--border);
+    cursor: pointer;
+}
+
+.swap {
+    flex: 0 0 auto;
+    width: 2.75rem;
+    height: 2.75rem;
+    font-size: 1.3rem;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.swap:hover {
+    transform: rotate(180deg);
+}
+
+.formula {
+    margin: 1rem 0 0;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0.75rem;
+}
+
+/* ---------- Reference table ---------- */
+
+.reference {
+    width: 100%;
+    border-collapse: collapse;        /* merge the borders of neighbouring cells */
+}
+
+.reference td {
+    padding: 0.5rem 0.25rem;
+    border-bottom: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+}
+
+/* :last-child = the last cell in each row. */
+.reference td:last-child {
+    text-align: right;
+    font-weight: 600;
+}
+
+/* :nth-child(even) stripes every second row. */
+.reference tr:nth-child(even) {
+    background: #fafafa;
+}
+
+@media (max-width: 520px) {
+    .sides {
+        flex-direction: column;       /* stack the sides on phones */
+    }
+
+    .side {
+        width: 100%;
+    }
+
+    .swap {
+        transform: rotate(90deg);
+    }
+
+    .swap:hover {
+        transform: rotate(270deg);
+    }
+}

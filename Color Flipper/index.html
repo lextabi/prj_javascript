@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Flipper</title>
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<!-- script.js changes the background color of <body> itself. -->
+<body>
+    <main class="card">
+        <h1>Color Flipper</h1>
+
+        <!-- Two radio buttons with the same "name" form a group: only one can be selected. -->
+        <fieldset class="modes">
+            <legend>Mode</legend>
+            <label><input type="radio" name="mode" value="simple" checked> Simple</label>
+            <label><input type="radio" name="mode" value="hex"> Hex</label>
+            <label><input type="radio" name="mode" value="rgb"> RGB</label>
+        </fieldset>
+
+        <!-- The current color code. JavaScript updates the text inside <code>. -->
+        <p class="code-row">
+            Background: <code id="color-code">#F1F5F9</code>
+        </p>
+
+        <div class="buttons">
+            <button id="flip" class="btn">Flip color</button>
+            <button id="copy" class="btn btn-light">Copy</button>
+        </div>
+
+        <!-- A small status message, for example "Copied!". -->
+        <p id="status" class="status" aria-live="polite"></p>
+
+        <h2>History</h2>
+        <!-- An empty list. JavaScript adds a swatch button for each recent color. -->
+        <ul id="history" class="history"></ul>
+
+        <p class="hint">Tip: press the space bar to flip.</p>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

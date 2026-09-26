@@ -1,0 +1,147 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    /* The starting color. script.js replaces it with style.backgroundColor. */
+    background-color: #f1f5f9;
+    /* Fade smoothly from the old color to the new one. */
+    transition: background-color 0.4s ease;
+}
+
+.card {
+    width: min(100%, 380px);
+    padding: 2rem;
+    text-align: center;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.2);
+    color: #0f172a;
+}
+
+h1 {
+    margin: 0 0 1rem;
+    font-size: 1.6rem;
+}
+
+h2 {
+    margin: 1.5rem 0 0.5rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748b;
+}
+
+/* ---------- Mode radio buttons ---------- */
+
+.modes {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+}
+
+.modes legend {
+    padding: 0 0.4rem;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.modes label {
+    cursor: pointer;
+}
+
+/* accent-color tints the built-in radio buttons without rebuilding them from scratch. */
+.modes input {
+    accent-color: #0f172a;
+}
+
+/* ---------- Color code ---------- */
+
+.code-row {
+    margin: 1.25rem 0;
+    font-size: 1.1rem;
+}
+
+code {
+    padding: 0.2rem 0.5rem;
+    font-family: ui-monospace, Consolas, monospace;
+    font-weight: 700;
+    background: #f1f5f9;
+    border-radius: 0.4rem;
+}
+
+/* ---------- Buttons ---------- */
+
+.buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.btn {
+    padding: 0.7rem 1.4rem;
+    font: inherit;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.6rem;
+    background: #0f172a;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn:hover  { opacity: 0.85; }
+.btn:active { transform: scale(0.97); }
+
+.btn-light {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.status {
+    min-height: 1.2em;           /* keep the space reserved so the layout does not jump */
+    margin: 0.75rem 0 0;
+    font-size: 0.9rem;
+    color: #16a34a;
+}
+
+/* ---------- History swatches ---------- */
+
+.history {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;            /* remove the bullet points */
+}
+
+.swatch {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 2px solid #fff;
+    border-radius: 50%;          /* 50% turns a square into a circle */
+    box-shadow: 0 0 0 1px #cbd5e1;
+    cursor: pointer;
+}
+
+.swatch:hover {
+    transform: scale(1.1);
+}
+
+.hint {
+    margin: 1.25rem 0 0;
+    font-size: 0.8rem;
+    color: #64748b;
+}

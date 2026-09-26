@@ -1,0 +1,379 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #f4f6fb;
+    --panel: #fff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --accent: #4f46e5;
+    --income: #059669;
+    --expense: #e11d48;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.app {
+    width: min(100%, 960px);
+    margin: 0 auto;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ---------- Header ---------- */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+h2 {
+    margin: 0 0 1rem;
+    font-size: 1.05rem;
+}
+
+input,
+select {
+    padding: 0.55rem 0.7rem;
+    font: inherit;
+    color: var(--text);
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 0.5rem;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* ---------- Summary cards ---------- */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.25rem 0;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1.1rem 1.25rem;
+    background: var(--panel);
+    border-radius: 1rem;
+    /* A colored stripe on the left, drawn with an inset shadow. */
+    box-shadow: inset 4px 0 0 var(--stripe, var(--accent)), 0 4px 12px rgb(15 23 42 / 0.05);
+}
+
+.card span {
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.card strong {
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Each card sets its own --stripe color, which the box-shadow above uses. */
+.card.income  { --stripe: var(--income); }
+.card.expense { --stripe: var(--expense); }
+.card.income strong  { color: var(--income); }
+.card.expense strong { color: var(--expense); }
+
+/* ---------- Two-column layout ---------- */
+
+.columns {
+    display: grid;
+    /* minmax(0, 1fr) lets the columns shrink below their content's width. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.panel {
+    margin-bottom: 1rem;
+    padding: 1.25rem;
+    background: var(--panel);
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgb(15 23 42 / 0.05);
+}
+
+/* ---------- Form ---------- */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.form label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.form input:not([type="radio"]),
+.form select {
+    width: 100%;
+    min-width: 0;                  /* date inputs have a wide built-in minimum; allow them to shrink */
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+/* The Expense / Income toggle: hide the real radio and style the <span> next to it. */
+.type-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0.25rem;
+    background: var(--bg);
+    border-radius: 0.6rem;
+}
+
+.type-toggle label {
+    display: block;
+    cursor: pointer;
+}
+
+.type-toggle input {
+    position: absolute;
+    opacity: 0;
+}
+
+.type-toggle span {
+    display: block;
+    padding: 0.45rem;
+    text-align: center;
+    border-radius: 0.45rem;
+}
+
+.type-toggle input[value="expense"]:checked + span { color: #fff; background: var(--expense); }
+.type-toggle input[value="income"]:checked + span  { color: #fff; background: var(--income); }
+
+.type-toggle input:focus-visible + span {
+    outline: 2px solid var(--accent);
+}
+
+.form-error {
+    min-height: 1.2em;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--expense);
+}
+
+.btn {
+    padding: 0.75rem;
+    font: inherit;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 0.6rem;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #4338ca;
+}
+
+/* ---------- Chart ---------- */
+
+.chart-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+#chart {
+    /* The canvas is drawn at a higher resolution by script.js; CSS sets the size on screen. */
+    width: 180px;
+    height: 180px;
+}
+
+.legend {
+    flex: 1;
+    min-width: 140px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.85rem;
+}
+
+.legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.2rem 0;
+}
+
+.legend .dot {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+}
+
+.legend .value {
+    margin-left: auto;             /* push the amount to the right */
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+}
+
+/* ---------- Transaction list ---------- */
+
+.list-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    display: grid;
+    /* icon | text | amount | delete */
+    grid-template-columns: 2.25rem minmax(0, 1fr) auto 2rem;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0;
+    border-top: 1px solid var(--border);
+}
+
+.item .icon {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1.1rem;
+    border-radius: 0.6rem;
+}
+
+.item .desc {
+    overflow: hidden;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.item .meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.item .amount {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.item.income .amount  { color: var(--income); }
+.item.expense .amount { color: var(--expense); }
+
+.item .delete {
+    width: 2rem;
+    height: 2rem;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.item .delete:hover {
+    color: var(--expense);
+    background: #ffe4e6;
+}
+
+.empty {
+    padding: 1.5rem 0;
+    text-align: center;
+    color: var(--muted);
+}
+
+.tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.link {
+    padding: 0;
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.link.danger {
+    margin-left: auto;
+    color: var(--expense);
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 760px) {
+    .columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .summary {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* The balance card spans the full width on its own row. */
+    .card.balance {
+        grid-column: 1 / -1;
+    }
+
+    .row {
+        grid-template-columns: 1fr;
+    }
+}

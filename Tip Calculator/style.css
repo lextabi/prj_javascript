@@ -1,0 +1,262 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --teal-dark: #00474b;
+    --teal: #26c2ae;
+    --teal-light: #9fe8df;
+    --grey-bg: #f3f9fa;
+    --grey-text: #5e7a7d;
+    --error: #e17457;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #c5e4e7;
+    color: var(--teal-dark);
+}
+
+/* ---------- Layout: CSS Grid with two columns ---------- */
+
+.calculator {
+    display: grid;
+    /* Two equal columns. "fr" means "a fraction of the free space". */
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: min(100%, 860px);
+    padding: 2rem;
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 40px rgb(0 71 75 / 0.12);
+}
+
+h1 {
+    /* grid-column: 1 / -1 makes the title span from the first to the last column. */
+    grid-column: 1 / -1;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    color: var(--grey-text);
+}
+
+/* ---------- Inputs ---------- */
+
+.inputs {
+    display: flex;
+    flex-direction: column;       /* stack the fields vertically */
+    gap: 1.5rem;
+}
+
+.field-head {
+    display: flex;
+    justify-content: space-between;
+}
+
+label,
+.label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--grey-text);
+}
+
+.error {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--error);
+}
+
+.input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font: inherit;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: right;
+    color: var(--teal-dark);
+    background: var(--grey-bg);
+    border: 2px solid transparent;
+    border-radius: 0.4rem;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--teal);
+}
+
+/* JavaScript adds .invalid when the value is not allowed. */
+.input.invalid {
+    border-color: var(--error);
+}
+
+/* A dollar sign drawn as a background, so the HTML stays simple. */
+.input-money {
+    background: var(--grey-bg) no-repeat 1rem center / 0.8rem
+        url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'><text y='14' font-size='16' fill='%239ebbbd'>$</text></svg>");
+}
+
+/* ---------- Tip buttons ---------- */
+
+.tip-grid {
+    display: grid;
+    /* repeat(3, 1fr) = three equal columns; the six items wrap into two rows. */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.tip-btn {
+    padding: 0.6rem;
+    font: inherit;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    background: var(--teal-dark);
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+}
+
+.tip-btn:hover {
+    color: var(--teal-dark);
+    background: var(--teal-light);
+}
+
+.tip-btn.active {
+    color: var(--teal-dark);
+    background: var(--teal);
+}
+
+.tip-custom {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+/* ---------- People stepper ---------- */
+
+.stepper {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.stepper .input {
+    text-align: center;
+}
+
+.step-btn {
+    flex: 0 0 3rem;               /* do not grow, do not shrink, always 3rem wide */
+    font-size: 1.4rem;
+    color: var(--teal-dark);
+    background: var(--grey-bg);
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+}
+
+.step-btn:hover {
+    background: var(--teal-light);
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.check input {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--teal);
+}
+
+/* ---------- Results panel ---------- */
+
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 2rem;
+    background: var(--teal-dark);
+    border-radius: 1rem;
+    color: #fff;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.row p {
+    margin: 0;
+    font-weight: 600;
+}
+
+.row small {
+    display: block;
+    color: #7f9d9f;
+}
+
+.amount {
+    /* clamp keeps big numbers readable on small screens. */
+    font-size: clamp(1.8rem, 6vw, 2.8rem);
+    font-weight: 700;
+    color: var(--teal);
+    font-variant-numeric: tabular-nums;
+}
+
+.row-small {
+    padding-top: 1rem;
+    border-top: 1px solid #1c6468;
+    color: var(--teal-light);
+}
+
+.reset {
+    /* margin-top: auto pushes the button to the bottom of the flex column. */
+    margin-top: auto;
+    padding: 0.75rem;
+    font: inherit;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--teal-dark);
+    background: var(--teal);
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+}
+
+.reset:hover:not(:disabled) {
+    background: var(--teal-light);
+}
+
+.reset:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* ---------- Small screens ---------- */
+
+/* A media query applies these rules only when the screen is 700px wide or less. */
+@media (max-width: 700px) {
+    .calculator {
+        grid-template-columns: 1fr;   /* one column: inputs on top, results below */
+        padding: 1.5rem;
+    }
+
+    .tip-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,0 +1,15 @@
+# The projects need no build step and create no files, so there is little to ignore.
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor settings
+.vscode/
+.idea/
+*.swp
+
+# In case someone runs a Node tool or local server in the repo
+node_modules/
+*.log

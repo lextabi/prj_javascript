@@ -1,0 +1,164 @@
+* {
+    box-sizing: border-box;
+}
+
+/* CSS custom properties (variables) are declared on :root and reused with var(--name). */
+:root {
+    --bg: #0b1020;
+    --card: #131a33;
+    --text: #e2e8f0;
+    --muted: #8b9bc4;
+    --accent: #38bdf8;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    /* A radial gradient gives a soft glow behind the card. */
+    background: radial-gradient(circle at top, #1e2a55, var(--bg) 70%);
+    color: var(--text);
+}
+
+.clock-card {
+    width: min(100%, 460px);
+    padding: 2rem;
+    text-align: center;
+    background: var(--card);
+    border: 1px solid #243056;
+    border-radius: 1.25rem;
+    box-shadow: 0 20px 50px rgb(0 0 0 / 0.5);
+}
+
+.greeting {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.1rem;
+}
+
+/* ---------- The big time ---------- */
+
+.time {
+    display: block;
+    margin: 0.5rem 0;
+    /* clamp(min, preferred, max): the font grows with the screen width but stays between 2.5rem and 4.5rem. */
+    font-size: clamp(2.5rem, 14vw, 4.5rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    /* text-shadow with no offset creates a neon glow. */
+    text-shadow: 0 0 20px rgb(56 189 248 / 0.4);
+}
+
+/* The colons blink: this @keyframes animation fades them out and back in every second. */
+.colon {
+    animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0.2; }
+}
+
+.ampm {
+    margin-left: 0.3rem;
+    font-size: 0.35em;          /* em = relative to the parent's font size */
+    color: var(--muted);
+}
+
+.date {
+    margin: 0 0 1.5rem;
+    font-size: 1.1rem;
+}
+
+/* ---------- Toggle switch (a styled checkbox) ---------- */
+
+.switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    color: var(--muted);
+}
+
+/* Hide the real checkbox visually but keep it usable for keyboards and screen readers. */
+.switch input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+/* The track of the switch. */
+.slider {
+    position: relative;
+    width: 2.75rem;
+    height: 1.5rem;
+    background: #334155;
+    border-radius: 999px;
+    transition: background 0.2s;
+}
+
+/* ::before creates the round knob without any extra HTML. */
+.slider::before {
+    content: "";
+    position: absolute;
+    top: 0.2rem;
+    left: 0.2rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+}
+
+/* The "+" selector means "the .slider right after a checked input". */
+.switch input:checked + .slider {
+    background: var(--accent);
+}
+
+.switch input:checked + .slider::before {
+    transform: translateX(1.25rem);
+}
+
+.switch input:focus-visible + .slider {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ---------- World clocks ---------- */
+
+h2 {
+    margin: 2rem 0 0.75rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+}
+
+.world {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.world li {
+    display: flex;
+    justify-content: space-between;     /* city on the left, time on the right */
+    padding: 0.6rem 0.25rem;
+    border-top: 1px solid #243056;
+}
+
+.world .city-time {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
+.world .offset {
+    margin-left: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+}

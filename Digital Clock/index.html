@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏰</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="clock-card">
+        <!-- "Good morning" / "Good afternoon" / "Good evening" -->
+        <p id="greeting" class="greeting">Hello</p>
+
+        <!-- <time> is the semantic element for dates and times. -->
+        <time id="time" class="time">
+            <!-- Each part has its own span so CSS can style them separately. -->
+            <span id="hours">00</span><span class="colon">:</span><span id="minutes">00</span><span class="colon">:</span><span id="seconds">00</span>
+            <span id="ampm" class="ampm"></span>
+        </time>
+
+        <p id="date" class="date">Loading date…</p>
+
+        <!-- A checkbox styled as a switch to choose between 12-hour and 24-hour time. -->
+        <label class="switch">
+            <input id="format24" type="checkbox">
+            <span class="slider" aria-hidden="true"></span>
+            24-hour format
+        </label>
+
+        <h2>World clocks</h2>
+        <!-- JavaScript fills this list with one row per city. -->
+        <ul id="world" class="world"></ul>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

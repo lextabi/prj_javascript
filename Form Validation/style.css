@@ -1,0 +1,241 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --accent: #2563eb;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #cbd5e1;
+    --error: #dc2626;
+    --ok: #16a34a;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 2.5rem 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #eff6ff;
+    color: var(--text);
+}
+
+.card {
+    width: min(100%, 460px);
+    margin: 0 auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 15px 35px rgb(37 99 235 / 0.1);
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.6rem;
+}
+
+.subtitle {
+    margin: 0.25rem 0 1.5rem;
+    color: var(--muted);
+}
+
+/* ---------- Fields ---------- */
+
+.field {
+    margin-bottom: 1.1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+}
+
+.optional {
+    font-weight: 400;
+    color: var(--muted);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    font: inherit;
+    border: 1.5px solid var(--border);
+    border-radius: 0.5rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgb(37 99 235 / 0.15);
+}
+
+/* script.js sets aria-invalid="true" or "false" after the user has touched a field.
+   Styling the ARIA attribute keeps the visual state and the screen-reader state in sync. */
+input[aria-invalid="true"] {
+    border-color: var(--error);
+}
+
+input[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px rgb(220 38 38 / 0.15);
+}
+
+input[aria-invalid="false"] {
+    border-color: var(--ok);
+}
+
+.error {
+    display: block;
+    min-height: 1.1em;
+    margin-top: 0.3rem;
+    font-size: 0.85rem;
+    color: var(--error);
+}
+
+/* ---------- Password ---------- */
+
+.password-wrap {
+    position: relative;
+}
+
+.password-wrap input {
+    padding-right: 4.5rem;            /* leave room for the Show button */
+}
+
+.toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.4rem;
+    transform: translateY(-50%);      /* exact vertical centering */
+    padding: 0.35rem 0.6rem;
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--accent);
+    background: #eff6ff;
+    border: none;
+    border-radius: 0.35rem;
+    cursor: pointer;
+}
+
+.strength {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.3rem;
+    margin-top: 0.6rem;
+}
+
+.strength span {
+    height: 0.35rem;
+    background: #e2e8f0;
+    border-radius: 999px;
+    transition: background 0.2s;
+}
+
+/* script.js sets data-score="1" to "4" on .strength; each level colors that many bars.
+   :nth-child(-n + 2) means "the first 2 children". */
+.strength[data-score="1"] span:nth-child(-n + 1) { background: #ef4444; }
+.strength[data-score="2"] span:nth-child(-n + 2) { background: #f97316; }
+.strength[data-score="3"] span:nth-child(-n + 3) { background: #eab308; }
+.strength[data-score="4"] span:nth-child(-n + 4) { background: var(--ok); }
+
+.strength-label {
+    margin: 0.35rem 0 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.rules {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.2rem 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+/* The ○ and ✓ markers are added with ::before, so the HTML stays clean. */
+.rules li::before {
+    content: "○ ";
+}
+
+.rules li.met {
+    color: var(--ok);
+}
+
+.rules li.met::before {
+    content: "✓ ";
+}
+
+/* ---------- Checkbox ---------- */
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.check input {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin: 0;
+    accent-color: var(--accent);
+}
+
+/* ---------- Buttons and success panel ---------- */
+
+.submit {
+    width: 100%;
+    padding: 0.85rem;
+    font: inherit;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background: #1d4ed8;
+}
+
+.success h2 {
+    margin: 0 0 0.5rem;
+    color: var(--ok);
+}
+
+pre {
+    padding: 1rem;
+    overflow-x: auto;                 /* long lines scroll inside the box, not the page */
+    font-size: 0.85rem;
+    background: #f1f5f9;
+    border-radius: 0.5rem;
+}
+
+/* A shake on the form when submit fails. */
+.shake {
+    animation: shake 0.35s;
+}
+
+@keyframes shake {
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+@media (max-width: 420px) {
+    .card {
+        padding: 1.25rem;
+    }
+
+    .rules {
+        grid-template-columns: 1fr;
+    }
+}

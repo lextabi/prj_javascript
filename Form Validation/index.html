@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="card">
+        <h1>Create your account</h1>
+        <p class="subtitle">A demo sign-up form. Nothing is sent anywhere.</p>
+
+        <!-- novalidate turns off the browser's own pop-up bubbles. We still use the browser's
+             validation rules (required, minlength, pattern, type="email") but show our own messages. -->
+        <form id="signup" novalidate>
+            <!-- Each field: a label, the input, and an empty <small> for its error message.
+                 aria-describedby links the input to its message so screen readers read it too. -->
+            <div class="field">
+                <label for="fullname">Full name</label>
+                <input id="fullname" name="fullname" type="text" autocomplete="name"
+                       required minlength="2" maxlength="60" aria-describedby="fullname-error">
+                <small id="fullname-error" class="error"></small>
+            </div>
+
+            <div class="field">
+                <label for="username">Username</label>
+                <!-- pattern is a regular expression the value must match completely. -->
+                <input id="username" name="username" type="text" autocomplete="username"
+                       required pattern="[A-Za-z0-9_]{3,16}" aria-describedby="username-error">
+                <small id="username-error" class="error"></small>
+            </div>
+
+            <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email"
+                       required aria-describedby="email-error">
+                <small id="email-error" class="error"></small>
+            </div>
+
+            <div class="field">
+                <label for="phone">Phone <span class="optional">(optional)</span></label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel"
+                       placeholder="+63 912 345 6789" aria-describedby="phone-error">
+                <small id="phone-error" class="error"></small>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <div class="password-wrap">
+                    <input id="password" name="password" type="password" autocomplete="new-password"
+                           required minlength="8" aria-describedby="password-error password-rules">
+                    <!-- type="button" so this does not submit the form. -->
+                    <button type="button" id="toggle-password" class="toggle" aria-label="Show password">Show</button>
+                </div>
+
+                <!-- The strength meter: four bars that fill in as the password gets stronger. -->
+                <div class="strength" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <p id="strength-label" class="strength-label">Strength: –</p>
+
+                <!-- A live checklist. data-rule matches a rule name in script.js. -->
+                <ul id="password-rules" class="rules">
+                    <li data-rule="length">At least 8 characters</li>
+                    <li data-rule="lower">A lowercase letter</li>
+                    <li data-rule="upper">An uppercase letter</li>
+                    <li data-rule="number">A number</li>
+                    <li data-rule="symbol">A symbol (!@#$…)</li>
+                </ul>
+                <small id="password-error" class="error"></small>
+            </div>
+
+            <div class="field">
+                <label for="confirm">Confirm password</label>
+                <input id="confirm" name="confirm" type="password" autocomplete="new-password"
+                       required aria-describedby="confirm-error">
+                <small id="confirm-error" class="error"></small>
+            </div>
+
+            <div class="field">
+                <label class="check">
+                    <input id="terms" name="terms" type="checkbox" required aria-describedby="terms-error">
+                    I agree to the terms and conditions
+                </label>
+                <small id="terms-error" class="error"></small>
+            </div>
+
+            <button type="submit" class="submit">Sign up</button>
+        </form>
+
+        <!-- Shown after a successful submit. -->
+        <section id="success" class="success" hidden>
+            <h2>🎉 Account created!</h2>
+            <p>This is what the form would send (the password is hidden):</p>
+            <pre id="summary"></pre>
+            <button type="button" id="again" class="submit">Start over</button>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

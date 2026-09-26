@@ -2,8 +2,6 @@
 
 Current weather and a 7-day forecast for any city in the world, using the free [Open-Meteo](https://open-meteo.com/) API (no account or API key needed). It has °C/°F, "use my location", recent searches, "did you mean" suggestions for places with the same name, and a background that changes with the weather.
 
-The browser version of the [prj_powshl Weather CLI](https://github.com/lextabi/prj_powshl).
-
 ## Concepts shown
 
 - **`fetch()`** with **`async` / `await`**, and chaining two APIs (city name → coordinates → forecast)

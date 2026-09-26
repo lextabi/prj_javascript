@@ -69,7 +69,3 @@ python -m http.server 8000
 ```
 
 or right-click `index.html` in VS Code → **Open with Live Server**.
-
-## More
-
-- [prj_powshl](https://github.com/lextabi/prj_powshl): PowerShell scripts, from the basics to real-world automation

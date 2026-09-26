@@ -2,8 +2,6 @@
 
 The computer picks a secret number and you guess it with higher/lower hints. It has three difficulty levels, a bar that shrinks to show which numbers are still possible, colored chips for your earlier guesses, and a best score for each level that is kept between visits.
 
-The browser version of the [prj_powshl Number Guessing Game](https://github.com/lextabi/prj_powshl).
-
 ## Concepts shown
 
 - a single **game state object** (`game.secret`, `game.triesLeft`, ...) that the page is drawn from

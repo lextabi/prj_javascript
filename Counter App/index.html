@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- The doctype tells the browser to use modern (standards) mode. -->
+<html lang="en">
+<head>
+    <!-- UTF-8 lets us use any character, like the − and + symbols below. -->
+    <meta charset="UTF-8">
+    <!-- Makes the page scale properly on phones instead of showing a zoomed-out desktop view. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter App</title>
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔢</text></svg>">
+    <!-- Link the stylesheet that lives in the same folder. -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- <main> holds the main content of the page (good for screen readers). -->
+    <main class="card">
+        <h1>Counter</h1>
+
+        <!-- JavaScript finds this element by its id and changes the number inside it.
+             aria-live="polite" makes screen readers announce the new value. -->
+        <p id="count" class="count" aria-live="polite">0</p>
+
+        <!-- A group of buttons. Each has an id so script.js can listen for clicks on it. -->
+        <div class="buttons">
+            <button id="decrease" class="btn" aria-label="Decrease">−</button>
+            <button id="reset" class="btn btn-reset">Reset</button>
+            <button id="increase" class="btn" aria-label="Increase">+</button>
+        </div>
+
+        <!-- A number input for the step size (how much each click adds or removes). -->
+        <label class="step">
+            Step
+            <input id="step" type="number" value="1" min="1" max="100">
+        </label>
+
+        <p class="hint">Tip: use the ↑ / ↓ arrow keys and R to reset.</p>
+    </main>
+
+    <!-- The script goes at the end of <body> so every element above already exists when it runs. -->
+    <script src="script.js"></script>
+</body>
+</html>

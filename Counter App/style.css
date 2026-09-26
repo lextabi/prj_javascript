@@ -1,0 +1,123 @@
+/* ---------- Basic page setup ---------- */
+
+/* box-sizing: border-box makes width include padding and border, which is easier to reason about. */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    /* min-height: 100vh = at least the full height of the browser window. */
+    min-height: 100vh;
+    /* Flexbox centers the card both horizontally and vertically. */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #e0e7ff, #f5f3ff);
+    color: #1e1b4b;
+}
+
+/* ---------- The card ---------- */
+
+.card {
+    width: min(90vw, 360px);          /* 90% of the screen, but never wider than 360px */
+    padding: 2rem;
+    text-align: center;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgb(30 27 75 / 0.15);
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6366f1;
+}
+
+/* ---------- The number ---------- */
+
+.count {
+    margin: 1rem 0;
+    font-size: 5rem;
+    font-weight: 700;
+    /* tabular-nums gives every digit the same width, so the number does not "jump" as it changes. */
+    font-variant-numeric: tabular-nums;
+    /* Animate the color change smoothly over 0.2 seconds. */
+    transition: color 0.2s, transform 0.1s;
+}
+
+/* JavaScript adds or removes these classes depending on the value. */
+.count.positive { color: #16a34a; }   /* green */
+.count.negative { color: #dc2626; }   /* red   */
+
+/* A quick "pop" effect that script.js triggers on every change. */
+.count.pop {
+    transform: scale(1.15);
+}
+
+/* ---------- Buttons ---------- */
+
+.buttons {
+    display: flex;
+    gap: 0.75rem;                      /* space between the buttons */
+    justify-content: center;
+}
+
+.btn {
+    min-width: 3.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 1.5rem;
+    font-family: inherit;              /* buttons do not inherit the font by default */
+    border: none;
+    border-radius: 0.75rem;
+    background: #6366f1;
+    color: #fff;
+    cursor: pointer;                   /* show the hand cursor on hover */
+    transition: background 0.2s, transform 0.1s;
+}
+
+/* :hover = the mouse is over it, :active = it is being pressed. */
+.btn:hover  { background: #4f46e5; }
+.btn:active { transform: scale(0.95); }
+
+/* :focus-visible shows an outline only for keyboard users (not after a mouse click). */
+.btn:focus-visible {
+    outline: 3px solid #a5b4fc;
+    outline-offset: 2px;
+}
+
+.btn-reset {
+    font-size: 1rem;
+    background: #e0e7ff;
+    color: #3730a3;
+}
+
+.btn-reset:hover { background: #c7d2fe; }
+
+/* ---------- Step input and hint ---------- */
+
+.step {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.step input {
+    width: 4.5rem;
+    padding: 0.4rem;
+    font: inherit;
+    text-align: center;
+    border: 1px solid #c7d2fe;
+    border-radius: 0.5rem;
+}
+
+.hint {
+    margin: 1rem 0 0;
+    font-size: 0.8rem;
+    color: #6b7280;
+}

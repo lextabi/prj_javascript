@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game">
+        <h1>Guess the Number</h1>
+
+        <!-- The difficulty picker. JavaScript reads data-level to know which settings to use. -->
+        <div class="levels" role="group" aria-label="Difficulty">
+            <button type="button" class="level active" data-level="easy">Easy</button>
+            <button type="button" class="level" data-level="normal">Normal</button>
+            <button type="button" class="level" data-level="hard">Hard</button>
+        </div>
+
+        <p id="intro" class="intro">I'm thinking of a number between 1 and 50.</p>
+
+        <!-- Using a <form> means pressing Enter in the box submits the guess automatically.
+             novalidate turns off the browser pop-ups so script.js can show its own friendly messages. -->
+        <form id="guess-form" class="guess-form" autocomplete="off" novalidate>
+            <label for="guess" class="visually-hidden">Your guess</label>
+            <input id="guess" type="number" inputmode="numeric" placeholder="?">
+            <button id="guess-btn" type="submit">Guess</button>
+        </form>
+
+        <!-- The hint after each guess ("Higher!", "Lower!", ...). -->
+        <p id="message" class="message" aria-live="polite">Make your first guess.</p>
+
+        <!-- A bar showing the range that is still possible. -->
+        <div class="range" aria-hidden="true">
+            <span id="range-low">1</span>
+            <div class="range-track"><div id="range-fill" class="range-fill"></div></div>
+            <span id="range-high">50</span>
+        </div>
+
+        <div class="stats">
+            <p>Tries left: <strong id="tries-left">10</strong></p>
+            <p>Best: <strong id="best">–</strong></p>
+        </div>
+
+        <!-- Every guess is added here as a small colored "chip". -->
+        <ul id="guesses" class="guesses" aria-label="Previous guesses"></ul>
+
+        <!-- hidden = not shown until the game ends. -->
+        <button id="play-again" type="button" class="play-again" hidden>Play again</button>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

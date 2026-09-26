@@ -1,0 +1,211 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #1c1917;
+    --card: #292524;
+    --text: #fafaf9;
+    --muted: #a8a29e;
+    --accent: #f59e0b;
+    --high: #3b82f6;      /* guess was too low → go higher */
+    --low: #ef4444;       /* guess was too high → go lower */
+    --win: #22c55e;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.game {
+    width: min(100%, 420px);
+    padding: 2rem;
+    text-align: center;
+    background: var(--card);
+    border-radius: 1.25rem;
+    box-shadow: 0 20px 40px rgb(0 0 0 / 0.4);
+}
+
+h1 {
+    margin: 0 0 1rem;
+    color: var(--accent);
+}
+
+/* Hides text visually but keeps it for screen readers (used for the input's label). */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ---------- Difficulty buttons ---------- */
+
+.levels {
+    display: inline-flex;
+    padding: 0.25rem;
+    background: var(--bg);
+    border-radius: 999px;
+}
+
+.level {
+    padding: 0.4rem 1rem;
+    font: inherit;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.level.active {
+    color: var(--bg);
+    background: var(--accent);
+    font-weight: 600;
+}
+
+.intro {
+    color: var(--muted);
+}
+
+/* ---------- Guess form ---------- */
+
+.guess-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.guess-form input {
+    /* flex: 1 lets the input take all the space the button does not need. */
+    flex: 1;
+    min-width: 0;
+    padding: 0.75rem;
+    font: inherit;
+    font-size: 1.5rem;
+    text-align: center;
+    color: var(--text);
+    background: var(--bg);
+    border: 2px solid #44403c;
+    border-radius: 0.75rem;
+}
+
+.guess-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.guess-form button,
+.play-again {
+    padding: 0.75rem 1.5rem;
+    font: inherit;
+    font-weight: 700;
+    color: var(--bg);
+    background: var(--accent);
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+}
+
+.guess-form button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ---------- Message ---------- */
+
+.message {
+    min-height: 1.5em;
+    margin: 1.25rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* JavaScript sets one of these classes on the message. */
+.message.higher { color: var(--high); }
+.message.lower  { color: var(--low); }
+.message.win    { color: var(--win); }
+.message.lose   { color: var(--low); }
+.message.warn   { color: var(--accent); }
+
+/* A short shake when the guess is wrong. */
+.shake {
+    animation: shake 0.3s;
+}
+
+@keyframes shake {
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+/* ---------- Remaining-range bar ---------- */
+
+.range {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+}
+
+.range-track {
+    position: relative;
+    flex: 1;
+    height: 0.5rem;
+    background: var(--bg);
+    border-radius: 999px;
+}
+
+/* script.js sets left and width in % to show which numbers are still possible. */
+.range-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--accent);
+    border-radius: 999px;
+    transition: left 0.3s, width 0.3s;
+}
+
+/* ---------- Stats and guesses ---------- */
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    color: var(--muted);
+}
+
+.stats strong {
+    color: var(--text);
+}
+
+.guesses {
+    display: flex;
+    flex-wrap: wrap;              /* chips move to a new line when there is no room */
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0 0 1rem;
+    padding: 0;
+    list-style: none;
+}
+
+.guesses li {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 999px;
+}
+
+.guesses .higher { background: rgb(59 130 246 / 0.2); color: var(--high); }
+.guesses .lower  { background: rgb(239 68 68 / 0.2);  color: var(--low); }
+.guesses .win    { background: rgb(34 197 94 / 0.2);  color: var(--win); }

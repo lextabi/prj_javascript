@@ -1,0 +1,371 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --text: #fff;
+    --muted: rgb(255 255 255 / 0.75);
+    --glass: rgb(255 255 255 / 0.15);
+    --glass-border: rgb(255 255 255 / 0.25);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    /* The default sky; the rules below replace it depending on data-sky. */
+    background: linear-gradient(160deg, #38bdf8, #2563eb);
+    background-attachment: fixed;     /* the gradient stays put while the page scrolls */
+    transition: background 0.6s;
+}
+
+/* One background per kind of weather. script.js picks one by setting data-sky on <body>. */
+body[data-sky="clear-day"]   { background: linear-gradient(160deg, #38bdf8, #2563eb); }
+body[data-sky="clear-night"] { background: linear-gradient(160deg, #1e1b4b, #0f172a); }
+body[data-sky="cloudy"]      { background: linear-gradient(160deg, #94a3b8, #475569); }
+body[data-sky="rain"]        { background: linear-gradient(160deg, #64748b, #1e3a5f); }
+body[data-sky="snow"]        { background: linear-gradient(160deg, #cbd5e1, #64748b); }
+body[data-sky="storm"]       { background: linear-gradient(160deg, #4c1d95, #111827); }
+
+.app {
+    width: min(100%, 640px);
+    margin: 0 auto;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.muted {
+    margin: 0;
+    color: var(--muted);
+}
+
+/* ---------- Header ---------- */
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.units {
+    display: flex;
+    padding: 0.2rem;
+    background: var(--glass);
+    border-radius: 999px;
+}
+
+.units button {
+    padding: 0.35rem 0.8rem;
+    font: inherit;
+    font-weight: 700;
+    color: var(--text);
+    background: none;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.units button[aria-pressed="true"] {
+    color: #1e293b;
+    background: #fff;
+}
+
+/* ---------- Search ---------- */
+
+.search {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+}
+
+.search input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.8rem 1rem;
+    font: inherit;
+    color: var(--text);
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    /* backdrop-filter blurs whatever is behind the element: the "frosted glass" look. */
+    backdrop-filter: blur(8px);
+}
+
+.search input::placeholder {
+    color: var(--muted);
+}
+
+.search input:focus {
+    outline: 2px solid #fff;
+}
+
+.search button {
+    padding: 0 1.1rem;
+    font: inherit;
+    font-weight: 700;
+    color: #1e293b;
+    background: #fff;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+}
+
+.search .locate {
+    padding: 0 0.8rem;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+}
+
+.recent {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+}
+
+.chip {
+    padding: 0.3rem 0.75rem;
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.chip:hover {
+    background: rgb(255 255 255 / 0.3);
+}
+
+/* ---------- Status (loading / errors) ---------- */
+
+.status {
+    min-height: 1.5em;
+    margin: 1rem 0;
+    font-weight: 600;
+}
+
+.status.error {
+    padding: 0.75rem 1rem;
+    background: rgb(220 38 38 / 0.6);
+    border-radius: 0.75rem;
+}
+
+/* A spinner made from a bordered circle with one colored side, rotating forever. */
+.status.loading::before {
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5rem;
+    vertical-align: -0.15em;
+    border: 3px solid var(--glass-border);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ---------- Current weather ---------- */
+
+.weather {
+    padding: 1.5rem;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 1.25rem;
+    backdrop-filter: blur(12px);
+}
+
+.current {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.place {
+    margin: 0;
+    font-size: 1.6rem;
+}
+
+.description {
+    margin: 0.5rem 0 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.big {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.icon {
+    font-size: 3.5rem;
+}
+
+.temp {
+    font-size: 4rem;
+    font-weight: 300;
+    line-height: 1;
+}
+
+.details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin: 1.5rem 0 0;
+}
+
+.details div {
+    padding: 0.75rem;
+    background: rgb(255 255 255 / 0.1);
+    border-radius: 0.75rem;
+}
+
+.details dt {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.details dd {
+    margin: 0.2rem 0 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.alternatives {
+    margin: 1rem 0 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.alternatives:empty {
+    display: none;                    /* hide the paragraph when there is nothing in it */
+}
+
+.alternatives .chip {
+    margin: 0.2rem 0.2rem 0 0;
+}
+
+/* ---------- Forecast ---------- */
+
+h3 {
+    margin: 1.5rem 0 0.5rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+}
+
+.forecast {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.forecast li {
+    display: grid;
+    /* Day name | icon | rain % | min–max bar */
+    grid-template-columns: 4.5rem 2rem 3.5rem 1fr;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--glass-border);
+}
+
+.forecast .day {
+    font-weight: 600;
+}
+
+.forecast .f-icon {
+    font-size: 1.4rem;
+}
+
+.forecast .f-rain {
+    font-size: 0.85rem;
+    color: #bae6fd;
+    white-space: nowrap;              /* keep "💧100%" on one line */
+}
+
+.range {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.range .min {
+    color: var(--muted);
+}
+
+/* The temperature bar: its position and length show the day's min and max
+   compared to the whole week. script.js sets the left and width in %. */
+.bar {
+    position: relative;
+    flex: 1;
+    height: 0.35rem;
+    background: rgb(255 255 255 / 0.15);
+    border-radius: 999px;
+}
+
+.bar span {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, #7dd3fc, #fde047, #fb923c);
+    border-radius: 999px;
+}
+
+.credit {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    text-align: center;
+    color: var(--muted);
+}
+
+.credit a {
+    color: var(--text);
+}
+
+@media (max-width: 560px) {
+    .details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .forecast li {
+        grid-template-columns: 3rem 1.5rem 3.4rem 1fr;
+        gap: 0.5rem;
+    }
+
+    .forecast .f-rain {
+        font-size: 0.8rem;
+    }
+
+    .temp {
+        font-size: 3.2rem;
+    }
+
+    .search button[type="submit"] {
+        padding: 0 0.8rem;
+    }
+}

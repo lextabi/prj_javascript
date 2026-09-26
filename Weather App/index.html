@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌦️</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<!-- script.js sets data-sky on <body> (clear-day, clear-night, cloudy, rain, snow, storm)
+     and the CSS changes the background to match the weather. -->
+<body data-sky="clear-day">
+    <main class="app">
+        <header class="top">
+            <h1>Weather</h1>
+            <!-- The unit switch: two buttons, one of them pressed. -->
+            <div class="units" role="group" aria-label="Units">
+                <button type="button" data-unit="celsius" aria-pressed="true">°C</button>
+                <button type="button" data-unit="fahrenheit" aria-pressed="false">°F</button>
+            </div>
+        </header>
+
+        <form id="search-form" class="search" autocomplete="off">
+            <label for="city" class="visually-hidden">City</label>
+            <input id="city" type="search" placeholder="Search for a city…" required>
+            <button type="submit">Search</button>
+            <button type="button" id="locate" class="locate" title="Use my location" aria-label="Use my location">📍</button>
+        </form>
+
+        <!-- Recent searches, as small buttons. -->
+        <div id="recent" class="recent"></div>
+
+        <!-- Status line for loading and error messages. -->
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+
+        <!-- The weather itself. Hidden until the first successful load. -->
+        <section id="weather" class="weather" hidden>
+            <div class="current">
+                <div>
+                    <h2 id="place" class="place"></h2>
+                    <p id="local-time" class="muted"></p>
+                    <p id="description" class="description"></p>
+                </div>
+                <div class="big">
+                    <span id="icon" class="icon" aria-hidden="true"></span>
+                    <span id="temp" class="temp"></span>
+                </div>
+            </div>
+
+            <!-- A definition list: each <dt> is a label and the <dd> after it is its value. -->
+            <dl class="details">
+                <div><dt>Feels like</dt><dd id="feels"></dd></div>
+                <div><dt>Humidity</dt><dd id="humidity"></dd></div>
+                <div><dt>Wind</dt><dd id="wind"></dd></div>
+                <div><dt>Rain chance</dt><dd id="rain"></dd></div>
+            </dl>
+
+            <!-- Other places with the same name, e.g. Manila, Utah. -->
+            <p id="alternatives" class="alternatives"></p>
+
+            <h3>7-day forecast</h3>
+            <ol id="forecast" class="forecast"></ol>
+        </section>
+
+        <p class="credit">Data: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (free, no API key)</p>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

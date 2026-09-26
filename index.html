@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prj_javascript · JavaScript Projects</title>
+    <meta name="description" content="15 small HTML, CSS and JavaScript projects, from a counter to a drag-and-drop Kanban board. No frameworks, no libraries.">
+    <!-- A tiny inline SVG icon for the browser tab, so no image file is needed. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟨</text></svg>">
+
+    <!-- The landing page keeps its styles in the page itself, so the repo root stays tidy
+         (each project folder has its own style.css). -->
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0f1115;
+            --panel: #171a21;
+            --panel-hover: #1d212a;
+            --border: #262b36;
+            --text: #e8eaf0;
+            --muted: #9aa3b5;
+            --js: #f7df1e;             /* the JavaScript yellow */
+            --fundamentals: #34d399;
+            --intermediate: #60a5fa;
+            --advanced: #f472b6;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            width: min(100% - 2rem, 1100px);    /* 1rem gutter on each side, max 1100px */
+            margin: 0 auto;
+        }
+
+        /* ---------- Hero ---------- */
+
+        .hero {
+            padding: 4rem 0 2.5rem;
+            border-bottom: 1px solid var(--border);
+            background: radial-gradient(ellipse at top left, rgb(247 223 30 / 0.12), transparent 60%);
+        }
+
+        .badge {
+            display: inline-grid;
+            place-items: end;
+            width: 3.5rem;
+            height: 3.5rem;
+            padding: 0.3rem 0.4rem;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #000;
+            background: var(--js);
+            border-radius: 0.3rem;
+        }
+
+        h1 {
+            margin: 1.25rem 0 0.5rem;
+            font-size: clamp(2rem, 6vw, 3.25rem);
+            line-height: 1.1;
+        }
+
+        .lead {
+            max-width: 42rem;
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--muted);
+        }
+
+        .facts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+            margin: 1.5rem 0 0;
+            padding: 0;
+            list-style: none;
+            color: var(--muted);
+        }
+
+        .facts strong {
+            color: var(--text);
+        }
+
+        .hero-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.75rem;
+        }
+
+        .button {
+            padding: 0.65rem 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #000;
+            background: var(--js);
+            border-radius: 0.5rem;
+        }
+
+        .button.ghost {
+            color: var(--text);
+            background: none;
+            border: 1px solid var(--border);
+        }
+
+        /* ---------- Filter ---------- */
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .filters button {
+            padding: 0.4rem 0.9rem;
+            font: inherit;
+            font-size: 0.9rem;
+            color: var(--muted);
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            cursor: pointer;
+        }
+
+        .filters button[aria-pressed="true"] {
+            color: #000;
+            background: var(--text);
+            border-color: var(--text);
+        }
+
+        /* ---------- Project cards ---------- */
+
+        .level-title {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin: 2rem 0 1rem;
+            font-size: 1.1rem;
+        }
+
+        .level-title::before {
+            content: "";
+            width: 0.7rem;
+            height: 0.7rem;
+            border-radius: 50%;
+            background: var(--level-color);
+        }
+
+        .level { --level-color: var(--muted); }
+        .level.fundamentals { --level-color: var(--fundamentals); }
+        .level.intermediate { --level-color: var(--intermediate); }
+        .level.advanced     { --level-color: var(--advanced); }
+
+        .grid {
+            display: grid;
+            /* As many columns as fit, each at least 290px wide (3 across on a laptop, 1 on a phone). */
+            grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .project {
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--level-color);
+            border-radius: 0.75rem;
+            transition: transform 0.15s, background 0.15s;
+        }
+
+        .project:hover {
+            background: var(--panel-hover);
+            transform: translateY(-2px);
+        }
+
+        .project-head {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .emoji {
+            font-size: 1.8rem;
+        }
+
+        .number {
+            margin-left: auto;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        .project h3 {
+            margin: 0.75rem 0 0.35rem;
+            font-size: 1.1rem;
+        }
+
+        .project p {
+            flex: 1;                  /* pushes the tags and links to the bottom of every card */
+            margin: 0;
+            font-size: 0.92rem;
+            color: var(--muted);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin: 1rem 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .tags li {
+            padding: 0.1rem 0.5rem;
+            font-family: ui-monospace, Consolas, monospace;
+            font-size: 0.75rem;
+            color: var(--text);
+            background: #222733;
+            border-radius: 0.3rem;
+        }
+
+        .links {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .links a {
+            text-decoration: none;
+        }
+
+        .links a:first-child {
+            color: var(--js);
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        /* ---------- Footer ---------- */
+
+        footer {
+            margin-top: 3rem;
+            padding: 2rem 0;
+            font-size: 0.9rem;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--js);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .project,
+            .project:hover {
+                transition: none;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="wrap">
+            <span class="badge" aria-hidden="true">JS</span>
+            <h1>JavaScript Projects</h1>
+            <p class="lead">
+                15 small projects I built to practise HTML, CSS and JavaScript, from a simple counter to a
+                drag-and-drop Kanban board. Every one runs right here in your browser.
+            </p>
+            <ul class="facts">
+                <li><strong>15</strong> projects</li>
+                <li><strong>0</strong> frameworks or libraries</li>
+                <li>Commented <strong>line by line</strong></li>
+            </ul>
+            <div class="hero-links">
+                <a class="button" href="https://github.com/lextabi/prj_javascript">View the code on GitHub</a>
+                <a class="button ghost" href="https://github.com/lextabi/prj_powshl">PowerShell projects</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <!-- Filter buttons. aria-pressed tells screen readers which one is on. -->
+        <nav class="filters" aria-label="Filter projects by level">
+            <button type="button" data-level="all" aria-pressed="true">All</button>
+            <button type="button" data-level="fundamentals" aria-pressed="false">Fundamentals</button>
+            <button type="button" data-level="intermediate" aria-pressed="false">Intermediate</button>
+            <button type="button" data-level="advanced" aria-pressed="false">Advanced</button>
+        </nav>
+
+        <!-- Each level is a <section>. The script shows or hides whole sections. -->
+        <section class="level fundamentals" data-level="fundamentals">
+            <h2 class="level-title">Fundamentals</h2>
+            <ul class="grid">
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">🔢</span><span class="number">01</span></div>
+                    <h3>Counter App</h3>
+                    <p>Increase, decrease and reset a number that changes color, with a custom step and keyboard shortcuts.</p>
+                    <ul class="tags"><li>getElementById</li><li>addEventListener</li><li>classList</li></ul>
+                    <div class="links"><a href="Counter%20App/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Counter%20App">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">🎨</span><span class="number">02</span></div>
+                    <h3>Color Flipper</h3>
+                    <p>Random background colors as names, hex or RGB, with a copy button and a clickable history.</p>
+                    <ul class="tags"><li>Math.random</li><li>template literals</li><li>Clipboard API</li></ul>
+                    <div class="links"><a href="Color%20Flipper/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Color%20Flipper">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">⏰</span><span class="number">03</span></div>
+                    <h3>Digital Clock</h3>
+                    <p>A live clock with the date, a greeting, a 12/24-hour switch and world clocks.</p>
+                    <ul class="tags"><li>Date</li><li>setInterval</li><li>timeZone</li></ul>
+                    <div class="links"><a href="Digital%20Clock/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Digital%20Clock">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">🧾</span><span class="number">04</span></div>
+                    <h3>Tip Calculator</h3>
+                    <p>Split a bill with tip between friends. Results update as you type, with friendly validation.</p>
+                    <ul class="tags"><li>input events</li><li>Intl.NumberFormat</li><li>CSS Grid</li></ul>
+                    <div class="links"><a href="Tip%20Calculator/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Tip%20Calculator">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">🎯</span><span class="number">05</span></div>
+                    <h3>Number Guessing Game</h3>
+                    <p>Guess the secret number with higher/lower hints, three levels and a best score for each.</p>
+                    <ul class="tags"><li>game state</li><li>form submit</li><li>localStorage</li></ul>
+                    <div class="links"><a href="Number%20Guessing%20Game/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Number%20Guessing%20Game">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">📏</span><span class="number">06</span></div>
+                    <h3>Unit Converter</h3>
+                    <p>Length, weight and temperature, converted both ways as you type, with a reference table.</p>
+                    <ul class="tags"><li>lookup objects</li><li>functions as values</li><li>destructuring</li></ul>
+                    <div class="links"><a href="Unit%20Converter/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Unit%20Converter">Code</a></div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="level intermediate" data-level="intermediate">
+            <h2 class="level-title">Intermediate</h2>
+            <ul class="grid">
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">✅</span><span class="number">07</span></div>
+                    <h3>To-Do List</h3>
+                    <p>Add, edit, complete and filter tasks that are still there when you come back.</p>
+                    <ul class="tags"><li>localStorage</li><li>JSON</li><li>event delegation</li></ul>
+                    <div class="links"><a href="To-Do%20List/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/To-Do%20List">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">🧮</span><span class="number">08</span></div>
+                    <h3>Calculator</h3>
+                    <p>A phone-style calculator with full keyboard support. The maths runs on a small state machine, with no <code>eval()</code>.</p>
+                    <ul class="tags"><li>state machine</li><li>regex</li><li>0.1 + 0.2</li></ul>
+                    <div class="links"><a href="Calculator/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Calculator">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">📝</span><span class="number">09</span></div>
+                    <h3>Form Validation</h3>
+                    <p>A sign-up form with live error messages and a password strength meter.</p>
+                    <ul class="tags"><li>Constraint Validation API</li><li>regex</li><li>ARIA</li></ul>
+                    <div class="links"><a href="Form%20Validation/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Form%20Validation">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">❓</span><span class="number">10</span></div>
+                    <h3>Quiz App</h3>
+                    <p>A timed JavaScript quiz with instant explanations, a score ring and a review of your mistakes.</p>
+                    <ul class="tags"><li>data-driven UI</li><li>timers</li><li>array methods</li></ul>
+                    <div class="links"><a href="Quiz%20App/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Quiz%20App">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">⭕</span><span class="number">11</span></div>
+                    <h3>Tic Tac Toe</h3>
+                    <p>Two players or against the computer, with a winning-line highlight and a saved scoreboard.</p>
+                    <ul class="tags"><li>win detection</li><li>simple AI</li><li>pure functions</li></ul>
+                    <div class="links"><a href="Tic%20Tac%20Toe/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Tic%20Tac%20Toe">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">🃏</span><span class="number">12</span></div>
+                    <h3>Memory Card Game</h3>
+                    <p>Flip cards to find the pairs, with three board sizes, a timer and a star rating.</p>
+                    <ul class="tags"><li>Fisher–Yates</li><li>3D CSS flip</li><li>&lt;dialog&gt;</li></ul>
+                    <div class="links"><a href="Memory%20Card%20Game/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Memory%20Card%20Game">Code</a></div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="level advanced" data-level="advanced">
+            <h2 class="level-title">Advanced</h2>
+            <ul class="grid">
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">🌦️</span><span class="number">13</span></div>
+                    <h3>Weather App</h3>
+                    <p>Current weather and a 7-day forecast for any city, from a free API with no key needed.</p>
+                    <ul class="tags"><li>fetch</li><li>async/await</li><li>AbortController</li></ul>
+                    <div class="links"><a href="Weather%20App/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Weather%20App">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">💰</span><span class="number">14</span></div>
+                    <h3>Expense Tracker</h3>
+                    <p>Monthly income and expenses in pesos, with a hand-drawn chart and CSV export.</p>
+                    <ul class="tags"><li>reduce</li><li>Canvas API</li><li>Blob download</li></ul>
+                    <div class="links"><a href="Expense%20Tracker/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Expense%20Tracker">Code</a></div>
+                </li>
+                <li class="project">
+                    <div class="project-head"><span class="emoji" aria-hidden="true">📋</span><span class="number">15</span></div>
+                    <h3>Kanban Board</h3>
+                    <p>A drag-and-drop task board built from ES modules, which you can also use with the keyboard and on touch screens.</p>
+                    <ul class="tags"><li>ES modules</li><li>classes</li><li>Drag and Drop API</li></ul>
+                    <div class="links"><a href="Kanban%20Board/">Live demo →</a><a href="https://github.com/lextabi/prj_javascript/tree/main/Kanban%20Board">Code</a></div>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <div class="wrap">
+            Built with plain HTML, CSS and JavaScript by LJT ·
+            <a href="https://github.com/lextabi">github.com/lextabi</a>
+        </div>
+    </footer>
+
+    <script>
+        // The level filter. Without JavaScript every project is simply shown, so the page still works.
+        const filterButtons = document.querySelectorAll('.filters button');
+        const levels = document.querySelectorAll('.level');
+
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const chosen = button.dataset.level;
+                // Mark the clicked button as pressed and the others as not pressed.
+                filterButtons.forEach((b) => b.setAttribute('aria-pressed', b === button));
+                // Show a section when "all" is chosen or when it matches the chosen level.
+                levels.forEach((section) => {
+                    section.hidden = chosen !== 'all' && section.dataset.level !== chosen;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
